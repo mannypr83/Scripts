@@ -1,0 +1,21 @@
+Public Class MyUtilities
+    Shared Sub RunCommandCom(command as String, arguments as String, permanent as Boolean) 
+        Dim p as Process = new Process() 
+        Dim pi as ProcessStartInfo = new ProcessStartInfo() 
+        pi.Arguments = " " + if(permanent = true, "/K" , "/C") + " " + command + " " + arguments 
+        pi.FileName = "cmd.exe" 
+        p.StartInfo = pi 
+        p.Start() 
+    End Sub
+End Class
+
+call, for example, in this way:
+
+MyUtilities.RunCommandCom("DIR", "/W", true)
+
+EDIT: For the multiple command on one line the key are the & | && and || command connectors
+
+    A & B -> execute command A, then execute command B.
+    A | B -> execute command A, and redirect all it's output into the input of command B.
+    A && B -> execute command A, evaluate the errorlevel after running Command A, and if the exit code (errorlevel) is 0, only then execute command B.
+    A || B -> execute Command A, evalutate the exit code of this command and if it's anything but 0, only then execute command B.

@@ -1,0 +1,37 @@
+Public Class Form1
+
+
+    Public Class MyUtilities
+        Shared Sub RunCommandCom(command As String, arguments As String, permanent As Boolean)
+            Dim p As Process = New Process()
+            Dim pi As ProcessStartInfo = New ProcessStartInfo()
+            pi.Arguments = " " + If(permanent = True, "/K", "/C") + " " + command + " " + arguments
+            pi.FileName = "cmd.exe"
+            p.StartInfo = pi
+            p.Start()
+        End Sub
+    End Class
+
+    Dim ConsoleApp As New Process
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Label1.Text = "funciona!"
+    End Sub
+
+    Private Sub btnRunCMD_Click(sender As Object, e As EventArgs) Handles btnRunCmd.Click
+        'ConsoleApp.StartInfo.FileName = "cmd"
+        'ConsoleApp.StartInfo.Arguments = "\k"
+        ' ConsoleApp.Start()
+        Dim notPermanent As Boolean
+        Dim cmdRun As String
+        cmdRun = "dir & cd\"
+        If chkNotPerm.Checked = True Then
+            notPermanent = False
+        Else
+            notPermanent = True
+        End If
+        MyUtilities.RunCommandCom(cmdRun, "", notPermanent)
+
+    End Sub
+
+End Class
